@@ -1,8 +1,8 @@
 
 ## Temsah Python Library
-```markdown
+
 Temsah is a powerful Python library specifically designed for web scraping e-commerce platforms such as Amazon. With its user-friendly interface and extensive functionality, Temsah allows developers to easily extract and collect product information and prices from these websites.
-```
+
 ## Installation
 
 You can install Temsah using pip:
