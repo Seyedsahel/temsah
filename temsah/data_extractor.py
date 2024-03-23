@@ -207,7 +207,7 @@ class Extractor:
 
         try:
             # product name
-            name = soup.find("h1", class_="ProductConversion_productTitle__dvlc5")
+            name=soup.find('h1',class_='ProductConversion_productTitle__F7CGH')
             if name:
                 product_name = name.text
                 self.product.name = product_name.strip()
@@ -215,7 +215,7 @@ class Extractor:
                 print("name tag not found")
 
             # img
-            div_tag = soup.find("div", class_="ImageGallery_imageContainer__jmn93")
+            div_tag = soup.find('div', class_='ImageGallery_imageContainer__1yXdp')
             final_src = ""
             if div_tag:
                 img_tag = div_tag.find("img")
@@ -226,31 +226,22 @@ class Extractor:
                 print("img tag not found")
 
             # price
-            span1_tag = soup.find(
-                "span",
-                class_="ProductPrice_sellingPrice__y8kib ProductPrice_xLarge__6DRdu",
-            )
-            if span1_tag:
-                span2_tag = span1_tag.find("span", class_="ProductPrice_value__hnFSS")
-                self.product.discount = False
-                self.product.price = span2_tag.text
-            else:
-                self.product.discount = True
-                div_tag = soup.find(
-                    "div", class_="ProductPrice_preReductionPrice__S72wT"
-                )  # in discount
+            section_tag = soup.find('section', class_='ProductPrice_container__ff_N1')
+            if section_tag:
+                div_tag = section_tag.find('div', class_='ProductPrice_preReductionPrice__bYwzp')
                 if div_tag:
+                    self.product.discount = True
                     self.product.price_out = div_tag.text
-                else:
-                    print("price tag not found")
-                span_tag = soup.find(
-                    "span",
-                    class_="ProductPrice_sellingPrice__y8kib ProductPrice_discounted__Puxu6 ProductPrice_xLarge__6DRdu",
-                )
-                if span_tag:
+                    span_tag=section_tag.find('span', class_='ProductPrice_sellingPrice__cSv1f')
                     self.product.price_in = span_tag.text
                 else:
+                    self.product.discount = False
+                    self.product.price = section_tag.text
+            else:
                     print("price tag not found")
+            
+            
+            
 
         except Exception as e:
             print(f"An error occurred while scraping the URL namshi")
@@ -291,7 +282,7 @@ class Extractor:
                 span_tag = div_tag.find("span", class_="total--sale-price")
                 if span_tag:
                     if self.product.discount:
-                        self.product.price_out = span_tag.text.strip()
+                        self.product.price_in = span_tag.text.strip()
                     else:
                         self.product.price = span_tag.text.strip()
 
