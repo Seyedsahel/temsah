@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import chardet
 from .data_extractor import *
+from .currency import *
 
 
 # ---------------------------
@@ -48,3 +49,10 @@ class Temsah:
 
         else:
             print(f"page.status_code:{page.status_code}")
+            
+
+        
+    
+        
+    
+    

@@ -9,6 +9,7 @@ class Product:
         self.discount = False
         self.price_out = ""
         self.price_in = ""
+        self.unit = ""
         self.image = ""
         self.url = ""
 
@@ -16,7 +17,7 @@ class Product:
         output = f"name: {self.name}\nsite: {self.site}\n"
         if not self.discount:
             output += f"price: {self.price}\n"
-        output += f"discount: {self.discount}\nprice_out: {self.price_out}\nprice_in: {self.price_in}\nimage: {self.image}\nurl: {self.url}"
+        output += f"discount: {self.discount}\nprice_out: {self.price_out}\nprice_in: {self.price_in}\nimage: {self.image}\nurl: {self.url}\ncurrency_unit: {self.unit}"
         return output
 
     def convert_to_dictionary(self):
@@ -26,6 +27,7 @@ class Product:
             "discount": self.discount,
             "image": self.image,
             "url": self.url,
+            "currency_unit":self.unit,
         }
 
         if self.discount:
@@ -73,6 +75,7 @@ class Extractor:
                 price_out = span_tag.find("span", class_="a-offscreen")
                 if price_out:  # in discount
                     self.product.price_out = price_out.text.strip()[3:].strip()
+                    self.product.unit = price_out.text.strip()[0:3].strip()
                     self.product.discount = True
 
                     price_in = soup.find(
@@ -90,6 +93,7 @@ class Extractor:
                 )
                 if price:
                     self.product.price = price.text.strip()[3:].strip()
+                    self.product.unit = price.text.strip()[0:3].strip()
                     self.product.discount = False
                 else:
                     print("price not found")
@@ -228,11 +232,13 @@ class Extractor:
                 if div_tag:
                     self.product.discount = True
                     self.product.price_out = div_tag.text.strip()[3:].strip()
+                    self.product.unit = div_tag.text.strip()[0:3].strip()
                     span_tag=section_tag.find('span', class_='ProductPrice_sellingPrice__cSv1f')
                     self.product.price_in = span_tag.text.strip()[3:].strip()
                 else:
                     self.product.discount = False
                     self.product.price = section_tag.text.strip()[3:].strip()
+                    self.product.unit = section_tag.text.strip()[0:3].strip()
             else:
                     print("price tag not found")
             
@@ -272,18 +278,24 @@ class Extractor:
             if div_tag:
                 self.product.discount = True
                 self.product.price_out = div_tag.text.strip()
+                
 
             div_tag = soup.find("div", class_="price")
             if div_tag:
                 span_tag = div_tag.find("span", class_="total--sale-price")
+                cur_tag = div_tag.find("span" , class_="currency")
                 if span_tag:
                     if self.product.discount:
                         self.product.price_in = span_tag.text.strip()
                     else:
-                        self.product.price = span_tag.text.strip()
-
+                        self.product.price = span_tag.text.strip() 
                 else:
                     print("price tag not found")
+                if cur_tag :
+                    self.product.unit = cur_tag.text.strip()
+                    
+
+                
 
         except Exception as e:
             print(f"An error occurred while scraping the URL sharafdg")
