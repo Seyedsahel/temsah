@@ -1,7 +1,7 @@
 
 ## Temsah Python Library
 
-Temsah is a powerful Python library specifically designed for web scraping e-commerce platforms such as Amazon. With its user-friendly interface and extensive functionality, Temsah allows developers to easily extract and collect product information and prices from these websites.
+Temsah is a powerful Python library specifically designed for web scraping e-commerce platforms such as Amazon. With its user-friendly interface and extensive functionality, Temsah allows developers to easily extract and collect product information and prices from these websites.Another usage has also been added to this library , Get the spot price of AED.
 
 ## Installation
 
@@ -22,7 +22,20 @@ Then use the main function of the library to perform web scraping on the desired
 ```sh
 result = temsah.scrape(url)
 ```
+It returns information from scraping e-commerce platforms.
 
+Also to get the spot price in dirhams:
+```sh
+object_currency = Currency()
+data = object_currency.scrape()
+print(data)
+```
+This code will show you an output similar to the output below:
+```sh
+{"AED_currency": "175,340"}
+```
+
+hope you enjoy !
 ## Supported Websites
 
 Temsah provides support for the following e-commerce websites:
@@ -34,7 +47,8 @@ Temsah provides support for the following e-commerce websites:
 6. [Noon](https://www.noon.com/uae-en/)
 7. [Carrefour](https://www.carrefouruae.com/)
 
-
+## A website that is scraped to get instant prices
+[tgju.org](https://www.tgju.org/profile/price_aed)
 ## Contact
 
 For any inquiries or contributions to improving this library, please [contact me](mailto:seyedsahel1383@gmail.com "Email Me").
