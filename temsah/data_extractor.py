@@ -199,6 +199,7 @@ class Extractor:
             print(f"An error occurred while scraping the URL adidas")
             print(e)
 
+    
     # ---------------------------namshi---------------------------
 
     def namshi(self):
@@ -211,8 +212,6 @@ class Extractor:
             if name:
                 product_name = name.text
                 self.product.name = product_name.strip()
-            else:
-                print("name tag not found")
 
             # img
             div_tag = soup.find('div', class_='ImageGallery_imageContainer__1yXdp')
@@ -222,8 +221,6 @@ class Extractor:
                 if img_tag:
                     final_src = f"https://www.namshi.com{img_tag['src']}"
                     self.product.image = final_src
-            else:
-                print("img tag not found")
 
             # price
             section_tag = soup.find('section', class_='ProductPrice_container__ff_N1')
@@ -239,15 +236,62 @@ class Extractor:
                     self.product.discount = False
                     self.product.price = section_tag.text.strip()[3:].strip()
                     self.product.unit = section_tag.text.strip()[0:3].strip()
-            else:
-                    print("price tag not found")
-            
-            
-            
 
         except Exception as e:
-            print(f"An error occurred while scraping the URL namshi")
-            print(e)
+                print(f"An error occurred while scraping the URL namshi")
+                print(e)
+            
+        if not (self.product.name or self.product.price or self.product.price_out or self.product.price_in or self.product.image):
+            try:
+                # product name
+                name = soup.find("h1", class_="ProductConversion_productTitle__dvlc5")
+                if name:
+                    product_name = name.text
+                    self.product.name = product_name.strip()
+                else:
+                    print("name tag not found")
+
+                # img
+                div_tag = soup.find("div", class_="ImageGallery_imageContainer__jmn93")
+                final_src = ""
+                if div_tag:
+                    img_tag = div_tag.find("img")
+                    if img_tag:
+                        final_src = f"https://www.namshi.com{img_tag['src']}"
+                        self.product.image = final_src
+                else:
+                    print("img tag not found")
+
+                # price
+                span1_tag = soup.find(
+                    "span",
+                    class_="ProductPrice_sellingPrice__y8kib ProductPrice_xLarge__6DRdu",
+                )
+                if span1_tag:
+                    self.product.discount = False
+                    self.product.price = span1_tag.text[3:].strip()
+                    self.product.unit = span1_tag.text.strip()[0:3]
+                else:
+                    self.product.discount = True
+                    div_tag = soup.find(
+                        "div", class_="ProductPrice_preReductionPrice__S72wT"
+                    )  # in discount
+                    if div_tag:
+                        self.product.price_out = div_tag.text.strip()[3:].strip()
+                        self.product.unit = div_tag.text.strip()[0:3].strip()
+                    else:
+                        print("price tag not found")
+                    span_tag = soup.find(
+                        "span",
+                        class_="ProductPrice_sellingPrice__y8kib ProductPrice_discounted__Puxu6 ProductPrice_xLarge__6DRdu",
+                    )
+                    if span_tag:
+                        self.product.price_in = span_tag.text.strip()[3:].strip()
+                    else:
+                        print("price tag not found")
+            except Exception as e:
+                print(f"An error occurred while scraping the URL namshi")
+                print(e)
 
     # ---------------------------sharafdg---------------------------
 
