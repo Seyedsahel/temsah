@@ -5,9 +5,9 @@ import chardet
 #-------------------------------------
 class Currency:
     def __init__(self):
-    self.url_aed = 'https://www.tgju.org/profile/price_aed'
-    self.url_dollar = 'https://www.tgju.org/profile/price_dollar_rl'
-    self.currency = {}
+        self.url_aed = 'https://www.tgju.org/profile/price_aed'
+        self.url_dollar = 'https://www.tgju.org/profile/price_dollar_rl'
+        self.currency = {}
 #-------------------------------------
 
     def scrape(self):
