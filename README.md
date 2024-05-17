@@ -24,7 +24,7 @@ result = temsah.scrape(url)
 ```
 It returns information from scraping e-commerce platforms.
 
-Also to get the spot price in dirhams:
+Also in the new version of the library you can get the instant price of the dollar and the tangle with the following code:
 ```sh
 object_currency = Currency()
 data = object_currency.scrape()
@@ -32,7 +32,7 @@ print(data)
 ```
 This code will show you an output similar to the output below:
 ```sh
-{"AED_currency": "175,340"}
+{"AED_currency": "175,340" , "USD_currency" : "647,000"}
 ```
 
 hope you enjoy !
